@@ -17,6 +17,7 @@ const createWindow = async () =>
         width: 1000,
         height: 800,
         minWidth: 1024,
+        backgroundColor: '#333333',
     });
 
     // and load the index.html of the app.

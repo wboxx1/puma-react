@@ -1,18 +1,16 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
 import styled from 'styled-components';
-import Container from 'react-bootstrap/lib/Container';
 import Row from 'react-bootstrap/lib/Row';
-import Col from 'react-bootstrap/lib/Col';
-import PropTypes from 'prop-types';
+import Button from 'react-bootstrap/lib/Button';
+import startService from './survey.service';
 
-const Button = styled.button`
-  color: palevioletred;
+const StyledButton = styled(Button)`
   font-size: 1em;
   margin: 0 auto;
   padding: 0.25em 1em;
-  border: 2px solid palevioletred;
   border-radius: 3px;
+  rgba(66, 114, 136, 1);
 `;
 
 const Centered = styled.div`
@@ -24,7 +22,57 @@ export default class Survey extends React.Component
     constructor(props)
     {
         super(props);
-        this.state = { data: [], layout: {}, frames: [], config: {}, revision: undefined };
+        this.state =
+        {
+            data: [],
+            revision: 0,
+            layout: { autosize: true },
+            frames: [],
+            useResizeHandler: true,
+            style: { width: '100%', height: '100%' },
+        };
+        this.startCollecting = this.startCollecting.bind(this);
+        this.stopCollecting = this.stopCollecting.bind(this);
+    }
+
+    startCollecting()
+    {
+        startService();
+        let count = 0;
+
+        this.timer = setInterval(() =>
+        {
+            // do sumpin
+            const range = [];
+            const vals = [];
+            for (let i = 0; i < 100000; i += 1)
+            {
+                range[i] = i;
+                vals[i] = Math.random();
+            }
+
+            const newData = [{
+                x: range,
+                y: vals,
+                mode: 'lines',
+            }];
+
+            this.setState({
+                data: newData,
+                revision: this.revision += 1,
+            });
+
+            count += 1;
+            if (count === 20)
+            {
+                clearInterval();
+            }
+        }, 500);
+    }
+
+    stopCollecting()
+    {
+        clearInterval(this.timer);
     }
 
     render()
@@ -44,7 +92,8 @@ export default class Survey extends React.Component
                     </Centered>
                 </Row>
                 <Row>
-                    <Button>Start Collecting</Button>
+                    <StyledButton variant="light" onClick={this.startCollecting}>Start Collecting</StyledButton>
+                    <StyledButton variant="light" onClick={this.stopCollecting}>Stop Collecting</StyledButton>
                 </Row>
             </Centered>
         );

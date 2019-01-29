@@ -6,8 +6,13 @@ import Content from './content/content';
 
 const Centered = styled.div`
     margin: 0 auto;
-    text-align: -webkit-center;
+    text-align: -webkit-center;    
 `;
+
+const Text = styled.h2`
+    color: #bababa;
+`;
+
 
 export default class Main extends React.Component
 {
@@ -16,21 +21,21 @@ export default class Main extends React.Component
         return (
             <div id="main">
                 <Row>
-                    <Centered>Header</Centered>
+                    <Centered><Text>Header</Text></Centered>
                 </Row>
                 <Row>
                     <Col lg={2}>
-                        <Centered>Left</Centered>
+                        <Centered><Text>Left</Text></Centered>
                     </Col>
                     <Col lg={8}>
                         <Content />
                     </Col>
                     <Col lg={2}>
-                        <Centered>Right</Centered>
+                        <Centered><Text>Right</Text></Centered>
                     </Col>
                 </Row>
                 <Row>
-                    <Centered>Footer</Centered>
+                    <Centered><Text>Footer</Text></Centered>
                 </Row>
             </div>
         );
